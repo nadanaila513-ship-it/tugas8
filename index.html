@@ -1,0 +1,566 @@
+<!DOCTYPE html><html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Siswa</title><style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        background: linear-gradient(135deg, #f7e8ff, #e7edff);
+        min-height: 100vh;
+        padding: 35px 15px;
+        color: #333;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: auto;
+    }
+
+    .header {
+        background: linear-gradient(135deg, #8e44ad, #5b4bdb);
+        color: white;
+        padding: 30px;
+        border-radius: 20px;
+        text-align: center;
+        margin-bottom: 25px;
+        box-shadow: 0 10px 25px rgba(91, 75, 219, .2);
+    }
+
+    .header h1 {
+        margin-bottom: 8px;
+    }
+
+    .card {
+        background: white;
+        padding: 25px;
+        border-radius: 18px;
+        margin-bottom: 25px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, .08);
+    }
+
+    .card h2 {
+        color: #6c3483;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 7px;
+    }
+
+    input,
+    select,
+    textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        outline: none;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+        border-color: #8e44ad;
+    }
+
+    textarea {
+        min-height: 90px;
+        resize: vertical;
+    }
+
+    .radio-group,
+    .checkbox-group {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .radio-group label,
+    .checkbox-group label {
+        font-weight: normal;
+    }
+
+    .radio-group input,
+    .checkbox-group input {
+        width: auto;
+        margin-right: 5px;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    button {
+        border: none;
+        padding: 11px 18px;
+        border-radius: 9px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .btn-simpan {
+        background: #8e44ad;
+        color: white;
+    }
+
+    .btn-reset {
+        background: #ddd;
+        color: #333;
+    }
+
+    .edit {
+        background: #f39c12;
+        color: white;
+    }
+
+    .hapus {
+        background: #e74c3c;
+        color: white;
+    }
+
+    button:hover {
+        opacity: .8;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 900px;
+    }
+
+    th {
+        background: #8e44ad;
+        color: white;
+        padding: 13px;
+        text-align: left;
+    }
+
+    td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        vertical-align: top;
+    }
+
+    tr:hover {
+        background: #faf3ff;
+    }
+
+    .status {
+        background: #d5f5e3;
+        color: #1e8449;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .aksi {
+        display: flex;
+        gap: 6px;
+    }
+
+    footer {
+        text-align: center;
+        color: #777;
+        padding: 10px;
+    }
+
+    @media (max-width: 600px) {
+        .button-group {
+            flex-direction: column;
+        }
+
+        .button-group button {
+            width: 100%;
+        }
+    }
+</style>
+
+</head><body><div class="container"><div class="header">
+    <h1>📚 DATA SISWA</h1>
+    <p>Form Pengelolaan Data Siswa</p>
+</div>
+
+<!-- FORM -->
+<div class="card">
+    <h2 id="judulForm">📝 Tambah Data Siswa</h2>
+
+    <form id="formSiswa">
+
+        <input type="hidden" id="editIndex">
+
+        <div class="form-group">
+            <label>Nama Lengkap</label>
+            <input type="text" id="nama"
+                   placeholder="Masukkan nama lengkap" required>
+        </div>
+
+        <div class="form-group">
+            <label>NIS</label>
+            <input type="number" id="nis"
+                   placeholder="Masukkan NIS" required>
+        </div>
+
+        <div class="form-group">
+            <label>Kelas</label>
+            <select id="kelas" required>
+                <option value="">-- Pilih Kelas --</option>
+                <option>X RPL 1</option>
+                <option>X RPL 2</option>
+                <option>XI RPL 1</option>
+                <option>XI RPL 2</option>
+                <option>XII RPL 1</option>
+                <option>XII RPL 2</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Jenis Kelamin</label>
+
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="jk" value="Laki-laki">
+                    Laki-laki
+                </label>
+
+                <label>
+                    <input type="radio" name="jk" value="Perempuan">
+                    Perempuan
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Hobi</label>
+
+            <div class="checkbox-group">
+                <label>
+                    <input type="checkbox" name="hobi" value="Memasak">
+                    Memasak
+                </label>
+
+                <label>
+                    <input type="checkbox" name="hobi" value="Membaca">
+                    Membaca
+                </label>
+
+                <label>
+                    <input type="checkbox" name="hobi" value="Olahraga">
+                    Olahraga
+                </label>
+
+                <label>
+                    <input type="checkbox" name="hobi" value="Gaming">
+                    Gaming
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Alamat</label>
+            <textarea id="alamat"
+                placeholder="Masukkan alamat lengkap"
+                required></textarea>
+        </div>
+
+        <div class="button-group">
+            <button type="submit" class="btn-simpan">
+                💾 Simpan Data
+            </button>
+
+            <button type="reset" class="btn-reset"
+                    onclick="batalEdit()">
+                🔄 Reset
+            </button>
+        </div>
+
+    </form>
+</div>
+
+<!-- TABLE -->
+<div class="card">
+
+    <h2>📋 Data Siswa</h2>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>NIS</th>
+                    <th>Nama</th>
+                    <th>Kelas</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Hobi</th>
+                    <th>Alamat</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+
+            <tbody id="tabelSiswa"></tbody>
+
+        </table>
+
+    </div>
+</div>
+
+<footer>
+    © 2026 Data Siswa | Persiapan PHP & MySQL
+</footer>
+
+</div><script>
+
+let dataSiswa = [
+    {
+        nis: "1001",
+        nama: "Ainun Naila Artha",
+        kelas: "X RPL 1",
+        jk: "Perempuan",
+        hobi: "Memasak",
+        alamat: "Jember"
+    }
+];
+
+
+// MENAMPILKAN DATA
+function tampilkanData() {
+
+    const tabel = document.getElementById("tabelSiswa");
+
+    tabel.innerHTML = "";
+
+    dataSiswa.forEach((siswa, index) => {
+
+        tabel.innerHTML += `
+            <tr>
+
+                <td>${index + 1}</td>
+
+                <td>${siswa.nis}</td>
+
+                <td>${siswa.nama}</td>
+
+                <td>${siswa.kelas}</td>
+
+                <td>${siswa.jk}</td>
+
+                <td>${siswa.hobi}</td>
+
+                <td>${siswa.alamat}</td>
+
+                <td>
+                    <span class="status">
+                        Aktif
+                    </span>
+                </td>
+
+                <td>
+                    <div class="aksi">
+
+                        <button class="edit"
+                            onclick="editData(${index})">
+                            ✏️ Edit
+                        </button>
+
+                        <button class="hapus"
+                            onclick="hapusData(${index})">
+                            🗑️ Hapus
+                        </button>
+
+                    </div>
+                </td>
+
+            </tr>
+        `;
+    });
+}
+
+
+// SIMPAN DATA
+document.getElementById("formSiswa")
+.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const nama = document.getElementById("nama").value;
+    const nis = document.getElementById("nis").value;
+    const kelas = document.getElementById("kelas").value;
+    const alamat = document.getElementById("alamat").value;
+
+    const jkElement =
+        document.querySelector('input[name="jk"]:checked');
+
+    if (!jkElement) {
+        alert("Silakan pilih jenis kelamin!");
+        return;
+    }
+
+    const jk = jkElement.value;
+
+    const hobiElement =
+        document.querySelectorAll('input[name="hobi"]:checked');
+
+    const hobi = Array.from(hobiElement)
+        .map(item => item.value)
+        .join(", ");
+
+    if (hobi === "") {
+        alert("Silakan pilih minimal satu hobi!");
+        return;
+    }
+
+    const editIndex =
+        document.getElementById("editIndex").value;
+
+
+    const siswaBaru = {
+        nis: nis,
+        nama: nama,
+        kelas: kelas,
+        jk: jk,
+        hobi: hobi,
+        alamat: alamat
+    };
+
+
+    // JIKA EDIT
+    if (editIndex !== "") {
+
+        dataSiswa[editIndex] = siswaBaru;
+
+        alert("Data berhasil diperbarui!");
+
+        document.getElementById("editIndex").value = "";
+
+        document.getElementById("judulForm").innerText =
+            "📝 Tambah Data Siswa";
+
+    }
+
+    // JIKA DATA BARU
+    else {
+
+        dataSiswa.push(siswaBaru);
+
+        alert("Data berhasil disimpan!");
+
+    }
+
+
+    tampilkanData();
+
+    this.reset();
+
+});
+
+
+// EDIT DATA
+function editData(index) {
+
+    const siswa = dataSiswa[index];
+
+    document.getElementById("nama").value =
+        siswa.nama;
+
+    document.getElementById("nis").value =
+        siswa.nis;
+
+    document.getElementById("kelas").value =
+        siswa.kelas;
+
+    document.getElementById("alamat").value =
+        siswa.alamat;
+
+
+    // Jenis kelamin
+    document.querySelectorAll('input[name="jk"]')
+    .forEach(input => {
+
+        input.checked =
+            input.value === siswa.jk;
+
+    });
+
+
+    // Hobi
+    document.querySelectorAll('input[name="hobi"]')
+    .forEach(input => {
+
+        input.checked =
+            siswa.hobi.includes(input.value);
+
+    });
+
+
+    document.getElementById("editIndex").value =
+        index;
+
+    document.getElementById("judulForm").innerText =
+        "✏️ Edit Data Siswa";
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+// HAPUS DATA
+function hapusData(index) {
+
+    const yakin = confirm(
+        "Apakah kamu yakin ingin menghapus data ini?"
+    );
+
+    if (yakin) {
+
+        dataSiswa.splice(index, 1);
+
+        tampilkanData();
+
+        alert("Data berhasil dihapus!");
+
+    }
+
+}
+
+
+// RESET / BATAL EDIT
+function batalEdit() {
+
+    document.getElementById("editIndex").value = "";
+
+    document.getElementById("judulForm").innerText =
+        "📝 Tambah Data Siswa";
+
+}
+
+
+// TAMPILKAN DATA PERTAMA KALI
+tampilkanData();
+
+</script></body>
+</html>
